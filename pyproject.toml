@@ -1,0 +1,53 @@
+[project]
+name = "llm-agent"
+version = "0.0.1"
+description = "A production-ready FastAPI boilerplate designed for building scalable, AI-powered applications."
+authors = [
+  { name = "Hoang Gia Huy", email = "ausarhuy@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "loguru",
+  "pydantic-settings",
+  "fastapi-utils",
+  "typing-inspect",
+  "email-validator",
+  "gunicorn",
+  "pytest",
+  "setuptools",
+  "prometheus-fastapi-instrumentator",
+  "aiocache",
+  "httpx",
+  "celery[redis]",
+  "duckduckgo-search",
+  "langchain-community",
+  "langgraph",
+  "langchain-tavily",
+  "fastapi-limiter",
+  "fakeredis[lua]",
+  "langchain-openai",
+  "langchain-google-genai",
+  "langchain-qdrant",
+  "langfuse",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+  "black",
+  "isort",
+  "mypy",
+  "ruff"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["docker*", "tests*", "docs*"]

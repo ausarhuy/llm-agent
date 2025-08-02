@@ -66,12 +66,14 @@ class AppConfig(BaseSettings):
     REDIS_PORT: str = ""
     REDIS_PASSWORD: str = ""
 
-    # OPENAI Model
-    OPENAI_API_KEY: str = ""
+    # LLM Model
+    LLM_API_KEY: str = ""
+    MODEL_PROVIDER: str = ""
+    MODEL_NAME: str = ""
     TAVILY_API_KEY: str = ""
 
     # Local Model (LM Studio)
-    LOCAL_MODEL_URL: str = "http://127.0.0.1:1234"
+    LOCAL_MODEL_URL: str = "http://localhost:30000"
     USE_LOCAL_MODEL: bool = False  # Default to OpenAI, can be overridden
 
     # Search Provider Configuration

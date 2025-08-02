@@ -22,11 +22,13 @@ class AnswerGenerator:
         if settings.USE_LOCAL_MODEL:
             self.llm = LocalModelClient()
         else:
-            from langchain_openai import ChatOpenAI
+            from langchain.chat_models import init_chat_model
             from pydantic import SecretStr
-            self.llm = ChatOpenAI(
+            self.llm = init_chat_model(
+                model_provider=settings.MODEL_PROVIDER,
                 model=LLMModelMap.ANSWER_GENERATOR,
-                api_key=SecretStr(settings.OPENAI_API_KEY),
+                api_key=SecretStr(settings.LLM_API_KEY),
+                temperature=0.0,
             )
 
     def generate(self, state: AgentState) -> Dict[str, List[AIMessage]]:

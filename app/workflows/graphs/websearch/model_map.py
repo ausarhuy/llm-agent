@@ -2,10 +2,12 @@
 
 import enum
 
+from app import settings
+
 
 class LLMModelMap(str, enum.Enum):
     """Enum mapping specific agent tasks to their respective LLM model identifiers."""
 
-    QUESTION_REWRITER = "gpt-4.1-mini"
-    QUESTION_ENHANCER = "gpt-4.1-mini"
-    ANSWER_GENERATOR = "gpt-4.1-mini"
+    QUESTION_REWRITER = settings.MODEL_NAME
+    QUESTION_ENHANCER = settings.MODEL_NAME
+    ANSWER_GENERATOR = settings.MODEL_NAME

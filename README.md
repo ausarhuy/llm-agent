@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/github/last-commit/kevaldekivadiya2415/fastapi-genai-boilerplate?style=flat-square&cacheBust=1" />
   <img src="https://img.shields.io/github/languages/top/kevaldekivadiya2415/fastapi-genai-boilerplate?style=flat-square&cacheBust=1" />
   <img src="https://img.shields.io/github/languages/count/kevaldekivadiya2415/fastapi-genai-boilerplate?style=flat-square&cacheBust=1" />
-  <img src=https://img.shields.io/badge/Python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue?style=flat-square&logo=python />
+  <img src=https://img.shields.io/badge/Python-%203.12%20|%203.13-blue?style=flat-square&logo=python />
 </p>
 
 ---
@@ -155,8 +155,8 @@ fastapi_genai_boilerplate/
 
 ```bash
 # Clone the repository
-git clone https://github.com/kevaldekivadiya2415/fastapi-genai-boilerplate
-cd fastapi-genai-boilerplate
+git clone https://github.com/ausarhuy/llm-agent
+cd llm-agent
 
 # Optional: create and activate virtual environment (recommended)
 uv venv
@@ -425,7 +425,7 @@ Redis (with RedisInsight UI) is exposed via Docker:
 ### ⛔ To Stop Everything
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ---
@@ -495,4 +495,4 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 
 ---
 
-[![Star History Chart](https://api.star-history.com/svg?repos=kevaldekivadiya2415/fastapi-genai-boilerplate&type=Date)](https://star-history.com/#kevaldekivadiya/fastapi-genai-boilerplate&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ausarhuy/llm-agent&type=Date)](https://star-history.com/#ausarhuy/llm-agent&Date)

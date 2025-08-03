@@ -9,14 +9,14 @@ Add these settings to your `.env` file:
 ```env
 # Model Configuration
 USE_LOCAL_MODEL=true
-LOCAL_MODEL_URL=http://127.0.0.1:1234
+LOCAL_MODEL_URL=http://localhost:30000
 
 # Search Provider Configuration
 SEARCH_PROVIDER=duckduckgo  # "duckduckgo" or "tavily"
 DUCKDUCKGO_MAX_RESULTS=10
 
 # OpenAI Configuration (used when USE_LOCAL_MODEL=false)
-OPENAI_API_KEY=your_openai_api_key_here
+LLM_API_KEY=your_llm_api_key_here
 
 # Tavily Configuration (used when SEARCH_PROVIDER=tavily)
 TAVILY_API_KEY=your_tavily_api_key_here
@@ -24,10 +24,9 @@ TAVILY_API_KEY=your_tavily_api_key_here
 
 ## Setup Steps
 
-### 1. Start LM Studio
-- Open LM Studio
+### 1. Start OpenAI-like local API (vLLM or Sglang)
 - Load your preferred model
-- Start the local server on `http://127.0.0.1:1234`
+- Start the local server on `http://localhost:30000`
 
 ### 2. Configure Environment
 Create a `.env` file in the project root:
@@ -41,7 +40,7 @@ PORT=8002
 
 # Model Configuration
 USE_LOCAL_MODEL=true
-LOCAL_MODEL_URL=http://127.0.0.1:1234
+LOCAL_MODEL_URL=http://localhost:30000
 
 # Search Provider Configuration
 SEARCH_PROVIDER=duckduckgo
@@ -76,14 +75,14 @@ curl "http://localhost:8002/api/v1/chat/websearch?question=What%20is%20Python%20
 ### Use Local Model + DuckDuckGo (Free Setup)
 ```env
 USE_LOCAL_MODEL=true
-LOCAL_MODEL_URL=http://127.0.0.1:1234
+LOCAL_MODEL_URL=http://localhost:30000
 SEARCH_PROVIDER=duckduckgo
 ```
 
 ### Use OpenAI + Tavily (Paid Setup)
 ```env
 USE_LOCAL_MODEL=false
-OPENAI_API_KEY=your_openai_api_key_here
+LLM_API_KEY=your_openai_api_key_here
 SEARCH_PROVIDER=tavily
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
@@ -92,13 +91,13 @@ TAVILY_API_KEY=your_tavily_api_key_here
 ```env
 # Local model with Tavily search
 USE_LOCAL_MODEL=true
-LOCAL_MODEL_URL=http://127.0.0.1:1234
+LOCAL_MODEL_URL=http://localhost:30000
 SEARCH_PROVIDER=tavily
 TAVILY_API_KEY=your_tavily_api_key_here
 
 # OpenAI with DuckDuckGo search
 USE_LOCAL_MODEL=false
-OPENAI_API_KEY=your_openai_api_key_here
+LLM_API_KEY=your_openai_api_key_here
 SEARCH_PROVIDER=duckduckgo
 ```
 

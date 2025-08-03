@@ -68,13 +68,13 @@ class AppConfig(BaseSettings):
 
     # LLM Model
     LLM_API_KEY: str = ""
-    MODEL_PROVIDER: str = ""
     MODEL_NAME: str = ""
+    MODEL_PROVIDER: str = "openai" # Default to OpenAI, can be used for in-house vLLM or sglang and can be overridden
     TAVILY_API_KEY: str = ""
 
-    # Local Model (LM Studio)
+    # Local Model (vLLM or sglang)
     LOCAL_MODEL_URL: str = "http://localhost:30000"
-    USE_LOCAL_MODEL: bool = False  # Default to OpenAI, can be overridden
+    USE_LOCAL_MODEL: bool = False
 
     # Search Provider Configuration
     SEARCH_PROVIDER: str = "duckduckgo"  # "duckduckgo" or "tavily"

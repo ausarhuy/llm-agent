@@ -2,7 +2,9 @@
 
 from datetime import datetime
 from typing import Dict, List
+from pydantic import SecretStr
 
+from langchain.chat_models import init_chat_model
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langgraph.config import get_stream_writer
@@ -20,15 +22,14 @@ class AnswerGenerator:
 
     def __init__(self):
         if settings.USE_LOCAL_MODEL:
-            self.llm = LocalModelClient()
+            self.llm = LocalModelClient(model_name=LLMModelMap.ANSWER_GENERATOR, model_provider="openai",
+                                        local_model_url=settings.LOCAL_MODEL_URL)
         else:
-            from langchain.chat_models import init_chat_model
-            from pydantic import SecretStr
             self.llm = init_chat_model(
-                model_provider=settings.MODEL_PROVIDER,
                 model=LLMModelMap.ANSWER_GENERATOR,
+                model_provider=settings.MODEL_PROVIDER,
                 api_key=SecretStr(settings.LLM_API_KEY),
-                temperature=0.0,
+                temperature=0.0
             )
 
     def generate(self, state: AgentState) -> Dict[str, List[AIMessage]]:

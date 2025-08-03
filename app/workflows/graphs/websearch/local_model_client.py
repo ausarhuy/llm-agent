@@ -1,23 +1,23 @@
 """Local model client for LM Studio integration."""
 
-from typing import Any, Dict, List, Optional
-from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from loguru import logger
-from pydantic import BaseModel, Field
+from typing import List
 
-from app import settings
+from langchain.chat_models import init_chat_model
+from langchain_core.messages import BaseMessage
+from loguru import logger
+from pydantic import BaseModel
 
 
 class LocalModelClient:
     """Client for interacting with local LM Studio model."""
     
-    def __init__(self):
-        self.client = ChatOpenAI(
-            base_url=settings.LOCAL_MODEL_URL + "/v1",
-            api_key="not-needed",  # LM Studio doesn't require API key
-            model="local-model",  # Model name doesn't matter for local
+    def __init__(self, model_name: str = "local-model", model_provider: str = "openai",
+                 local_model_url: str = "http://localhost:30000"):
+        self.client = init_chat_model(
+            model=model_name,
+            model_provider=model_provider,
+            base_url=local_model_url + "/v1",
+            api_key="not-needed",
             temperature=0.7,
             max_tokens=2000,
         )

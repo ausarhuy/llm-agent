@@ -1,7 +1,9 @@
 """Question enhancement component for generating multiple refined websearch questions."""
 
 from typing import Dict
+from pydantic import SecretStr
 
+from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage, SystemMessage
 from loguru import logger
 from pydantic import BaseModel, Field
@@ -28,13 +30,15 @@ class QuestionEnhancer:
 
     def __init__(self):
         if settings.USE_LOCAL_MODEL:
-            self.llm = LocalModelClient()
+            self.llm = LocalModelClient(model_name=settings.MODEL_NAME, model_provider="openai",
+                                        local_model_url=settings.LOCAL_MODEL_URL).with_structured_output(
+                schema=EnhancedQuestionsResult,
+                strict=True,
+            )
         else:
-            from langchain.chat_models import init_chat_model
-            from pydantic import SecretStr
             self.llm = init_chat_model(
+                model=LLMModelMap.QUESTION_ENHANCER,
                 model_provider=settings.MODEL_PROVIDER,
-                model=LLMModelMap.ANSWER_GENERATOR,
                 api_key=SecretStr(settings.LLM_API_KEY),
                 temperature=0.0,
             ).with_structured_output(

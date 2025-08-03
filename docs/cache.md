@@ -25,8 +25,7 @@ Caching is configured in `app/core/cache/cache.py` using the `CacheBackend` enum
 from aiocache import Cache
 from aiocache.serializers import JsonSerializer
 
-from app.core.config import settings
-from app.core.enums import CacheBackend
+from app.core.config import CacheBackend, settings
 
 if settings.CACHE_BACKEND == CacheBackend.REDIS:
     cache = Cache(

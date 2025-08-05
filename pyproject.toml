@@ -23,7 +23,7 @@ dependencies = [
   "aiocache",
   "httpx",
   "celery[redis]",
-  "duckduckgo-search",
+  "ddgs",
   "langchain-community",
   "langgraph",
   "langchain-tavily",

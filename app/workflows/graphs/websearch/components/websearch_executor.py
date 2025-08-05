@@ -20,7 +20,7 @@ class WebSearchExecutor:
         """
         questions = (
             state["refined_questions"]
-            if state["refined_questions"]
+            if state.get("refined_questions")
             else [state["refined_question"]]
         )
         results = []
@@ -34,5 +34,6 @@ class WebSearchExecutor:
                     results.append(item)
 
         logger.info(f"Web search completed with {len(results)} result sets.")
+        logger.debug(f"Web search results: {results}")
 
         return {"search_results": results}

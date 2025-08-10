@@ -4,7 +4,7 @@ from langfuse import Langfuse, get_client
 from langfuse.langchain import CallbackHandler
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, StateGraph
-
+from loguru import logger
 from app import settings
 
 from .components.answer_generator import AnswerGenerator
@@ -21,8 +21,13 @@ Langfuse(
     host=settings.LANGFUSE_HOST,
 )
 langfuse = get_client()
-langfuse_handler = CallbackHandler(public_key=settings.LANGFUSE_PUBLIC_KEY)
-
+# Verify connection
+if langfuse.auth_check():
+    logger.info("Langfuse client is authenticated and ready!")
+    callbacks = [CallbackHandler(public_key=settings.LANGFUSE_PUBLIC_KEY)]
+else:
+    logger.error("Authentication failed. Please check your credentials and host.")
+    callbacks = []
 
 class WebSearchAgentGraph:
     """Encapsulates the LangGraph agent state workflow using class-based components."""
@@ -66,5 +71,5 @@ class WebSearchAgentGraph:
     def compile(self):
         """Compile the LangGraph workflow with checkpointer."""
         return self.workflow.compile(checkpointer=checkpointer).with_config(
-            {"callbacks": [langfuse_handler]}
+            {"callbacks": callbacks}
         )

@@ -71,7 +71,7 @@ class AnswerGenerator:
         )
         conversation.append(HumanMessage(content=rag_prompt))
 
-        logger.info(f"Generating answer with {'local' if settings.USE_LOCAL_MODEL else 'OpenAI'} model...")
+        logger.info(f"Generating answer with {'local' if settings.USE_LOCAL_MODEL else settings.MODEL_NAME} model...")
         
         if settings.USE_LOCAL_MODEL:
             answer_content = self.llm.invoke(conversation)

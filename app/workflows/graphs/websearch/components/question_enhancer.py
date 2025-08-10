@@ -68,7 +68,7 @@ class QuestionEnhancer:
             HumanMessage(content=question),
         ]
 
-        logger.info(f"Enhancing question with {'local' if settings.USE_LOCAL_MODEL else 'OpenAI'} model...")
+        logger.info(f"Enhancing question with {'local' if settings.USE_LOCAL_MODEL else settings.MODEL_NAME} model...")
 
         if settings.USE_LOCAL_MODEL:
             response_content = self.llm.invoke(conversation)

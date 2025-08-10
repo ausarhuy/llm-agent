@@ -78,7 +78,7 @@ class QuestionRewriter:
         )
         conversation.append(HumanMessage(content=current_question))
 
-        logger.info(f"Rewriting question with {'local' if settings.USE_LOCAL_MODEL else 'OpenAI'} model...")
+        logger.info(f"Rewriting question with {'local' if settings.USE_LOCAL_MODEL else settings.MODEL_NAME} model...")
 
         if settings.USE_LOCAL_MODEL:
             # For local models, we'll use a simpler approach

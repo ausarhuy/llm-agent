@@ -345,7 +345,7 @@ grafana:
 Make sure the following file exists:
 
 ```
-docker/
+config/
 └── prometheus/
     └── prometheus.yml
 ```
@@ -353,7 +353,7 @@ docker/
 Example:
 
 ```yaml
-# docker/prometheus/prometheus.yml
+# config/prometheus/prometheus.yml
 
 global:
   scrape_interval: 5s
@@ -442,29 +442,111 @@ This boilerplate is compatible with [Langfuse](https://www.langfuse.com/) for ob
 
 ### ⚙️ Setup Instructions
 
-1. **Start Langfuse via Docker Compose**
+1. **Configure Environment Variables**
 
+   Create a `langfuse.env` file from the provided template:
    ```bash
-   docker compose -f docker-compose-langfuse.yaml up -d
+   mv langfuse.env.sample langfuse.env
    ```
 
-2. **Access the Langfuse UI**
+2. **Update Security Credentials**
 
-   Open your browser at [http://localhost:3000](http://localhost:3000)
+   **⚠️ IMPORTANT:** Change the default passwords and keys in your `langfuse.env` file:
 
-3. **Sign Up & Create Project**
+   ```bash
+   # Generate a new encryption key
+   openssl rand -hex 32
+   ```
+
+   Then update these critical values in `langfuse.env`:
+   ```env
+   # Security Keys - CHANGE THESE!
+   LANGFUSE_SALT=your_secure_salt_here
+   LANGFUSE_ENCRYPTION_KEY=your_generated_encryption_key_here
+   NEXTAUTH_SECRET=your_secure_nextauth_secret_here
+
+   # Database Passwords - CHANGE THESE!
+   POSTGRES_PASSWORD=your_secure_postgres_password
+   CLICKHOUSE_PASSWORD=your_secure_clickhouse_password
+   REDIS_PASSWORD=your_secure_redis_password
+   MINIO_ROOT_PASSWORD=your_secure_minio_password
+
+   # S3/MinIO Access Keys - CHANGE THESE!
+   LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY=your_secure_s3_key
+   LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY=your_secure_s3_key
+   LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY=your_secure_s3_key
+   ```
+
+3. **Customize Ports (Optional)**
+
+   Modify ports in `langfuse.env` if needed to avoid conflicts:
+   ```env
+   # Port Configuration
+   LANGFUSE_WEB_PORT=3000
+   LANGFUSE_WORKER_PORT=3030
+   POSTGRES_PORT=5432
+   REDIS_PORT=6380
+   CLICKHOUSE_HTTP_PORT=8123
+   CLICKHOUSE_NATIVE_PORT=9002
+   MINIO_PORT=9000
+   MINIO_CONSOLE_PORT=9001
+   ```
+
+4. **Start Langfuse via Docker Compose**
+
+   ```bash
+   docker compose -f docker-compose-langfuse.yaml --env-file langfuse.env up -d
+   ```
+
+5. **Access the Langfuse UI**
+
+   Open your browser at [http://localhost:3000](http://localhost:3000) (or your configured `LANGFUSE_WEB_PORT`)
+
+6. **Sign Up & Create Project**
 
    * Register your admin user
    * Create a new project
-   * Copy the **Public** and **Secret** API keys
+   * Copy the **Public** and **Secret** API keys from the project settings
 
-4. **Add Langfuse Credentials to `.env`**
+7. **Add Langfuse Credentials to Application**
 
+   Add these to your application's `.env` file:
    ```env
+   # Langfuse API Configuration
    LANGFUSE_HOST=http://localhost:3000
-   LANGFUSE_PUBLIC_KEY=your-public-key-here
-   LANGFUSE_SECRET_KEY=your-secret-key-here
+   LANGFUSE_PUBLIC_KEY=pk-lf-your-public-key-here
+   LANGFUSE_SECRET_KEY=sk-lf-your-secret-key-here
    ```
+
+8. **Stop and remove all containers, networks, and volumes**
+
+    ```bash
+    docker-compose -f docker-compose-langfuse.yaml down -v
+   ```
+
+### 🔧 Service Architecture
+
+The Langfuse deployment includes:
+
+| Service | Purpose | Default Port | External Access                  |
+|---------|---------|--------------|----------------------------------|
+| **langfuse-web** | Main web interface | 3000         | ✅ localhost:3000          |
+| **langfuse-worker** | Background job processor | 3030         | ✅ localhost:3030          |
+| **postgres** | Primary database | 5432         | ✅ localhost:5432                 |
+| **clickhouse** | Analytics database | 8123, 9002   | ✅ localhost:8123, localhost:9002 |
+| **redis** | Cache & job queue | 6380         | ✅ localhost:6380                 |
+| **minio** | S3-compatible storage | 9000, 9001   | ✅ localhost:9000, localhost:9001 |
+
+---
+
+## 🛡️ Security Best Practices
+
+- **Never use default passwords in production**
+- Add `*.env` to your `.gitignore` file
+- Use Docker secrets for production deployments
+- Consider using external managed services (AWS RDS, Redis Cloud, etc.) for production
+- Regularly rotate your API keys and passwords
+
 ---
 
 ## 🧩 Documentation

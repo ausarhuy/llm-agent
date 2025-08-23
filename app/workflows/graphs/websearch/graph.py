@@ -15,17 +15,18 @@ from .components.websearch_executor import WebSearchExecutor
 from .states import AgentState
 
 checkpointer = InMemorySaver()
-Langfuse(
-    public_key=settings.LANGFUSE_PUBLIC_KEY,
-    secret_key=settings.LANGFUSE_SECRET_KEY,
-    host=settings.LANGFUSE_HOST,
-)
-langfuse = get_client()
 # Verify connection
-if langfuse.auth_check():
+try:
+    Langfuse(
+        public_key=settings.LANGFUSE_PUBLIC_KEY,
+        secret_key=settings.LANGFUSE_SECRET_KEY,
+        host=settings.LANGFUSE_HOST,
+    )
+    langfuse = get_client()
+    langfuse.auth_check()
     logger.info("Langfuse client is authenticated and ready!")
     callbacks = [CallbackHandler(public_key=settings.LANGFUSE_PUBLIC_KEY)]
-else:
+except Exception:
     logger.error("Authentication failed. Please check your credentials and host.")
     callbacks = []
 
